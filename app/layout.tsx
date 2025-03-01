@@ -4,6 +4,7 @@ import { ClerkProvider } from "@clerk/nextjs";
 
 import { Toaster } from "@/components/ui/sonner";
 import "./globals.css";
+import { ExitModal } from "@/components/modals/exit-modal";
 
 const font = Quicksand({
 	subsets: ["latin"],
@@ -34,7 +35,7 @@ export default function RootLayout({
 						closeButton
 						theme="light"
 					/>
-
+					<ExitModal />
 					{children}
 				</body>
 			</html>

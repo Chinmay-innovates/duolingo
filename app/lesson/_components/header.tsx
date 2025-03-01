@@ -1,4 +1,5 @@
 import { Progress } from "@/components/ui/progress";
+import { useExitModal } from "@/store/use-exit-modal";
 import { InfinityIcon, XIcon } from "lucide-react";
 import Image from "next/image";
 
@@ -13,10 +14,11 @@ export const Header = ({
 	hearts,
 	percentage,
 }: HeaderProps) => {
+	const { open } = useExitModal();
 	return (
 		<header className="lg:pt-[50px] pt-[30px] px-10 flex gap-x-7 items-center justify-between max-w-[1140px] mx-auto w-full">
 			<XIcon
-				onClick={() => {}}
+				onClick={open}
 				className="text-slate-500 hover:opacity-75 cursor-pointer transition"
 			/>
 			<Progress value={percentage} />
