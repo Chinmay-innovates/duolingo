@@ -61,23 +61,50 @@ const main = async () => {
 				unitId: 1,
 				title: "Nouns",
 			},
+			{
+				id: 2,
+				order: 2,
+				unitId: 1,
+				title: "Verbs",
+			},
+			{
+				id: 3,
+				order: 3,
+				unitId: 1,
+				title: "Adjectives",
+			},
+			{
+				id: 4,
+				order: 4,
+				unitId: 1,
+				title: "Phrases",
+			},
+			{
+				id: 5,
+				order: 5,
+				unitId: 1,
+				title: "Conversation",
+			},
 		]);
-		console.log("Inserted 1 lesson ✌️");
+		console.log("Inserted 5 lessons ✌️");
 
 		await db.insert(schema.challenges).values([
 			{
+				id: 1,
 				lessonId: 1, // Nouns
 				type: "SELECT",
 				order: 1,
 				question: 'Which one of these is the "the man"?',
 			},
 			{
+				id: 2,
 				lessonId: 1, // Nouns
 				type: "ASSIST",
 				order: 2,
 				question: '"the man"',
 			},
 			{
+				id: 3,
 				lessonId: 1, // Nouns
 				type: "SELECT",
 				order: 3,
@@ -88,6 +115,7 @@ const main = async () => {
 		await db.insert(schema.challengeOptions).values([
 			// Challenge 1: "Which one of these is 'the man'?"
 			{
+				id: 1,
 				challengeId: 1,
 				imageSrc: "/man.svg",
 				audioSrc: "/es_man.mp3",
@@ -95,6 +123,7 @@ const main = async () => {
 				correct: true,
 			},
 			{
+				id: 2,
 				challengeId: 1,
 				imageSrc: "/woman.svg",
 				audioSrc: "/es_woman.mp3",
@@ -102,6 +131,7 @@ const main = async () => {
 				correct: true,
 			},
 			{
+				id: 3,
 				challengeId: 1,
 				imageSrc: "/robot.svg",
 				audioSrc: "/es_robot.mp3",
@@ -110,6 +140,7 @@ const main = async () => {
 			},
 			// Challenge 2: "Assist - 'the man'"
 			{
+				id: 4,
 				challengeId: 2,
 				imageSrc: "/man.svg",
 				audioSrc: "/es_man.mp3",
@@ -117,6 +148,7 @@ const main = async () => {
 				correct: true,
 			},
 			{
+				id: 5,
 				challengeId: 2,
 				imageSrc: "/woman.svg",
 				audioSrc: "/es_woman.mp3",
@@ -124,6 +156,7 @@ const main = async () => {
 				correct: false,
 			},
 			{
+				id: 6,
 				challengeId: 2,
 				imageSrc: "/robot.svg",
 				audioSrc: "/es_man.mp3",
@@ -133,6 +166,7 @@ const main = async () => {
 
 			// Challenge 3: "Which one of these is 'the robot'?"
 			{
+				id: 7,
 				challengeId: 3,
 				imageSrc: "/robot.svg",
 				audioSrc: "/es_robot.mp3",
@@ -140,6 +174,7 @@ const main = async () => {
 				correct: true,
 			},
 			{
+				id: 8,
 				challengeId: 3,
 				imageSrc: "/man.svg",
 				audioSrc: "/es_man.mp3",
@@ -147,6 +182,7 @@ const main = async () => {
 				correct: false,
 			},
 			{
+				id: 9,
 				challengeId: 3,
 				imageSrc: "/woman.svg",
 				audioSrc: "/es_woman.mp3",
