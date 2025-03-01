@@ -1,14 +1,13 @@
 import { cache } from "react";
-import { eq, sql } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 import { auth } from "@clerk/nextjs";
 
 import {
-	challengeProgress,
-	challenges,
 	courses,
 	lessons,
 	units,
 	userProgress,
+	challengeProgress,
 } from "./schema";
 import db from "./drizzle";
 
@@ -87,4 +86,108 @@ export const getCourseById = cache(async (courseId: number) => {
 	});
 
 	return data;
+});
+
+export const getCourseProgress = cache(async () => {
+	const { userId } = await auth();
+	const userProgress = await getUserProgress();
+	if (!userProgress?.courseId || !userId) return null;
+
+	const unitsInActivCourse = await db.query.units.findMany({
+		where: eq(units.courseId, userProgress.courseId),
+		orderBy: (units, { asc }) => [asc(units.order)],
+		with: {
+			lessons: {
+				orderBy: (lessons, { asc }) => [asc(lessons.order)],
+				with: {
+					unit: true,
+					challenges: {
+						with: {
+							challengeProgress: {
+								where: eq(challengeProgress.userId, userId),
+							},
+						},
+					},
+				},
+			},
+		},
+	});
+
+	const firstUnCompletedLesson = unitsInActivCourse
+		.flatMap((unit) => unit.lessons)
+		.find((lesson) =>
+			lesson.challenges.some(
+				(challenge) =>
+					!challenge.challengeProgress ||
+					challenge.challengeProgress.length === 0 ||
+					challenge.challengeProgress.some((progress) => !progress.completed)
+			)
+		);
+
+	return {
+		activeLesson: firstUnCompletedLesson,
+		activeLessonId: firstUnCompletedLesson?.id,
+	};
+});
+
+export const getLesson = cache(async (id?: number) => {
+	const { userId } = await auth();
+	if (!userId) return null;
+
+	const courseProgress = await getCourseProgress();
+
+	const lessonId = id || courseProgress?.activeLessonId;
+
+	if (!lessonId) return null;
+
+	const data = await db.query.lessons.findFirst({
+		where: eq(lessons.id, lessonId),
+		with: {
+			challenges: {
+				orderBy: (challenges, { asc }) => [asc(challenges.order)],
+				with: {
+					challengeOptions: true,
+					challengeProgress: {
+						where: eq(challengeProgress.userId, userId),
+					},
+				},
+			},
+		},
+	});
+
+	if (!data || !data.challenges) return null;
+
+	// Normalizing the data
+	const normalizedChallenges = data.challenges.map((challenge) => {
+		const completed =
+			challenge.challengeProgress &&
+			challenge.challengeProgress.length > 0 &&
+			challenge.challengeProgress.every((progress) => progress.completed);
+
+		return {
+			...challenge,
+			completed,
+		};
+	});
+
+	return {
+		...data,
+		challenges: normalizedChallenges,
+	};
+});
+
+export const getLessonPercentage = cache(async () => {
+	const courseProgress = await getCourseProgress();
+	if (!courseProgress?.activeLessonId) return 0;
+
+	const lesson = await getLesson(courseProgress.activeLessonId);
+	if (!lesson) return 0;
+
+	const completedChallenges = lesson.challenges.filter(
+		(challenge) => challenge.completed
+	);
+
+	return Math.round(
+		(completedChallenges.length / lesson.challenges.length) * 100
+	);
 });
