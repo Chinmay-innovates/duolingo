@@ -10,7 +10,7 @@ interface FooterProps {
 	onCheck: () => void;
 	status: ChallengeStatus;
 	disabled?: boolean;
-	lessonId?: boolean;
+	lessonId?: number;
 }
 
 export const Footer = ({
@@ -20,7 +20,7 @@ export const Footer = ({
 	lessonId,
 }: FooterProps) => {
 	useKey("Enter", onCheck, { event: "keydown" }, [onCheck]);
-	const isMobile = useMedia("(max-width: 1024px)");
+	const isMobile = useMedia("(max-width: 1024px)", false);
 
 	const buttonTextMap = {
 		NONE: "Check",
@@ -57,7 +57,7 @@ export const Footer = ({
 	return (
 		<footer
 			className={cn(
-				"lg:h[140px] h-[200px] border-t-2 mt-4",
+				"lg:h[140px] h-[100px] border-t-2 mt-4",
 				status === "CORRECT" && "border-transparent bg-green-100",
 				status === "WRONG" && "border-transparent bg-rose-100"
 			)}

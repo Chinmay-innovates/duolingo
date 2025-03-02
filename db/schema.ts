@@ -7,6 +7,7 @@ import {
 	serial,
 	text,
 } from "drizzle-orm/pg-core";
+import { MAX_HEARTS } from "@/constants";
 
 export const courses = pgTable("courses", {
 	id: serial("id").primaryKey(),
@@ -132,7 +133,7 @@ export const userProgress = pgTable("user_progress", {
 	courseId: integer("course_id").references(() => courses.id, {
 		onDelete: "cascade",
 	}),
-	hearts: integer("hearts").notNull().default(5),
+	hearts: integer("hearts").notNull().default(MAX_HEARTS),
 	points: integer("points").notNull().default(0),
 });
 

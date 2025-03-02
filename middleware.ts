@@ -2,6 +2,17 @@ import { authMiddleware } from "@clerk/nextjs";
 
 export default authMiddleware({
 	publicRoutes: ["/"],
+	ignoredRoutes: [
+		"/es_man.mp3",
+		"/es_woman.mp3",
+		"/es_robot.mp3",
+		"/es_girl.mp3",
+		"/es_boy.mp3",
+		"/es_zombie.mp3",
+		"/correct.wav",
+		"/incorrect.wav",
+		"/finish.wav",
+	],
 });
 
 export const config = {
