@@ -63,9 +63,7 @@ export const getUnits = cache(async () => {
 				return (
 					challenge.challengeProgress &&
 					challenge.challengeProgress.length > 0 &&
-					challenge.challengeProgress.every((progress) => {
-						progress.completed;
-					})
+					challenge.challengeProgress.every((progress) => progress.completed)
 				);
 			});
 
