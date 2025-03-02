@@ -121,10 +121,8 @@ export const getCourseProgress = cache(async () => {
 			lesson.challenges.some(
 				(challenge) =>
 					!challenge.challengeProgress ||
-					challenge.challengeProgress.length === 0 ||
-					challenge.challengeProgress.some(
-						(progress) => progress.completed === false
-					)
+					!challenge.challengeProgress.length ||
+					challenge.challengeProgress.some((progress) => !progress.completed)
 			)
 		);
 
