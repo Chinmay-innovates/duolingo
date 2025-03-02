@@ -2,7 +2,7 @@ import { challengeOptions, challenges } from "@/db/schema";
 import { cn } from "@/lib/utils";
 import { Card } from "./card";
 
-export type ChallengeStatus = "CORRECT" | "WRONG" | "NONE";
+export type ChallengeStatus = "CORRECT" | "WRONG" | "NONE" | "COMPLETED";
 
 interface ChallengeProps {
 	options: (typeof challengeOptions.$inferSelect)[];
