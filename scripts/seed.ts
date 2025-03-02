@@ -128,7 +128,7 @@ const main = async () => {
 				imageSrc: "/woman.svg",
 				audioSrc: "/es_woman.mp3",
 				text: "la mujer",
-				correct: true,
+				correct: false,
 			},
 			{
 				id: 3,
@@ -136,7 +136,7 @@ const main = async () => {
 				imageSrc: "/robot.svg",
 				audioSrc: "/es_robot.mp3",
 				text: "el robot",
-				correct: true,
+				correct: false,
 			},
 			// Challenge 2: "Assist - 'the man'"
 			{
