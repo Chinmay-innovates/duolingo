@@ -27,7 +27,7 @@ export const Challenge = ({
 				"grid gap-2",
 				type === "ASSIST" && "grid-cols-1",
 				type === "SELECT" &&
-					"grid grid-cols-[repeat(auto-fit,minmax(210px,1fr))]"
+					"grid grid-cols-[repeat(auto-fit,minmax(180px,1fr))]"
 			)}
 		>
 			{options.map((option, i) => (

@@ -47,7 +47,7 @@ export const Card = ({
 		<div
 			onClick={handleClick}
 			className={cn(
-				"h-full border-2 rounded-xl border-b-4 hover:bg-black/5 p-4 lg:p-6 cursor-pointer active:border-b-2",
+				"h-full border-2 rounded-xl border-b-4 hover:bg-black/5 p-4 lg:p-6 cursor-pointer active:border-b-2 min-h-[160px]",
 				selected && "border-sky-300 bg-sky-100 hover:bg-sky-100",
 				selected &&
 					status === "CORRECT" &&
@@ -61,13 +61,13 @@ export const Card = ({
 		>
 			{audio}
 			{imageSrc && (
-				<div className="relative aspect-square mb-4 max-h-[120px] lg:max-size-[150px] w-full flex items-center justify-center">
-					<Image src={imageSrc} alt={text} height={150} width={150} />
+				<div className="relative aspect-square h-[100px] mb-4 w-full flex items-center justify-center">
+					<Image src={imageSrc} alt={text} height={120} width={120} />
 				</div>
 			)}
 			<div
 				className={cn(
-					"flex items-center justify-between mt-8",
+					"flex items-center justify-between mt-4",
 					type === "ASSIST" && "flex-row-reverse"
 				)}
 			>
