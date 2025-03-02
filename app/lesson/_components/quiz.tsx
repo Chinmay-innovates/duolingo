@@ -9,6 +9,7 @@ import { Footer } from "./footer";
 import { QuestionBubble } from "./question-bubble";
 import { Challenge, ChallengeStatus } from "./challenge";
 import { upsertChallengeProgress } from "@/server/challengeprogress";
+import { useHeartsModal } from "@/store/use-hearts-modal";
 import {
 	HEARTS_TO_DECREMENT,
 	MAX_HEARTS,
@@ -16,10 +17,11 @@ import {
 } from "@/constants";
 import { toast } from "sonner";
 import { reduceHearts } from "@/server/userprogress";
-import { useAudio, useWindowSize } from "react-use";
+import { useAudio, useMount, useWindowSize } from "react-use";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { ResultCard } from "./result-card";
+import { usePracticeModal } from "@/store/use-practice-modal";
 
 interface QuizProps {
 	initalHearts: number;
@@ -39,12 +41,24 @@ export const Quiz = ({
 	userSubscription,
 	initalLessonChallenges,
 }: QuizProps) => {
+	const { open: openHeartsModal } = useHeartsModal();
+	const { open: openPracticeModal } = usePracticeModal();
+
+	useMount(() => {
+		if (initalPercentage === 100) openPracticeModal();
+	});
+
 	const [correctAudio, _c, correctControls] = useAudio({ src: "/correct.wav" });
 	const [wrongAudio, _w, wrongControls] = useAudio({ src: "/incorrect.wav" });
+
 	const [hearts, setHearts] = useState(initalHearts);
-	const [percentage, setPercentage] = useState(initalPercentage);
+	const [percentage, setPercentage] = useState(() => {
+		return initalPercentage === 100 ? 0 : initalPercentage;
+	});
+
 	const [lessonId] = useState(initalLessonId);
 	const [challenges] = useState(initalLessonChallenges);
+
 	const [activeIndex, setActiveIndex] = useState(() => {
 		const index = initalLessonChallenges.findIndex(
 			(challenge) => !challenge.completed
@@ -52,6 +66,7 @@ export const Quiz = ({
 
 		return index === -1 ? 0 : index;
 	});
+
 	const [selectedOption, setSelectdOption] = useState<number>();
 	const [status, setStatus] = useState<ChallengeStatus>("NONE");
 	const [isPending, startTransition] = useTransition();
@@ -94,7 +109,7 @@ export const Quiz = ({
 				upsertChallengeProgress(challenge.id)
 					.then((response) => {
 						if (response?.error === "hearts") {
-							console.error("Missing hearts");
+							openHeartsModal();
 							return;
 						}
 						setStatus("CORRECT");
@@ -113,7 +128,7 @@ export const Quiz = ({
 				reduceHearts(challenge.id)
 					.then((response) => {
 						if (response?.error === "hearts") {
-							console.error("Missing hearts");
+							openHeartsModal();
 							return;
 						}
 						setStatus("WRONG");
