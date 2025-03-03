@@ -56,7 +56,8 @@ export const Card = ({
 					status === "WRONG" &&
 					"border-rose-300 bg-rose-100 hover:bg-rose-100",
 				disabled && "pointer-events-none opacity-50 hover:bg-white",
-				type === "ASSIST" && "lg:p-3 w-full"
+				type === "ASSIST" && "lg:p-3 w-full",
+				!imageSrc && "flex flex-col justify-center h-12"
 			)}
 		>
 			{audio}
@@ -77,7 +78,8 @@ export const Card = ({
 						"text-neutral-600 text-sm lg:text-base lg:mt-0 font-semibold",
 						selected && "text-sky-500",
 						selected && status === "CORRECT" && "text-green-500",
-						selected && status === "WRONG" && "text-rose-500"
+						selected && status === "WRONG" && "text-rose-500",
+						!imageSrc && "text-center mb-3"
 					)}
 				>
 					{text}
@@ -89,7 +91,8 @@ export const Card = ({
 						selected &&
 							status === "CORRECT" &&
 							"border-green-500 text-green-500",
-						selected && status === "WRONG" && "border-rose-500 text-rose-500"
+						selected && status === "WRONG" && "border-rose-500 text-rose-500",
+						!imageSrc && "text-center mb-3"
 					)}
 				>
 					{shortcut}
