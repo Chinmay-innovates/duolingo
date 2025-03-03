@@ -15,6 +15,7 @@ export const Header = ({
 	percentage,
 }: HeaderProps) => {
 	const { open } = useExitModal();
+
 	return (
 		<header className="lg:pt-[50px] pt-[30px] px-10 flex gap-x-7 items-center justify-between max-w-[1140px] mx-auto w-full">
 			<XIcon
@@ -24,7 +25,7 @@ export const Header = ({
 			<Progress value={percentage} />
 			<div className="text-rose-500 flex items-center font-bold">
 				<Image
-					src={"/heart.svg"}
+					src={hasActiveSubscription ? "/unlimited.svg" : "/heart.svg"}
 					alt="Heart"
 					height={28}
 					width={28}

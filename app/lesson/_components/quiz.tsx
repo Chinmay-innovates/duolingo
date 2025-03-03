@@ -148,6 +148,7 @@ export const Quiz = ({
 
 	const { width, height } = useWindowSize();
 	const [finishAudio] = useAudio({ src: "/finish.mp3", autoPlay: true });
+	const isPro = !!userSubscription?.isActive;
 	if (!challenge)
 		return (
 			<>
@@ -182,7 +183,7 @@ export const Quiz = ({
 							variant="points"
 							value={challenges.length * POINTS_TO_INCREMENT}
 						/>
-						<ResultCard variant="hearts" value={hearts} />
+						<ResultCard variant="hearts" value={hearts} isPro={isPro} />
 					</div>
 				</div>
 				<Footer

@@ -1,13 +1,15 @@
 import Image from "next/image";
 
 import { cn } from "@/lib/utils";
+import { InfinityIcon } from "lucide-react";
 
 interface ResultCardProps {
 	value: number;
 	variant: "hearts" | "points";
+	isPro?: boolean;
 }
 
-export const ResultCard = ({ value, variant }: ResultCardProps) => {
+export const ResultCard = ({ value, variant, isPro }: ResultCardProps) => {
 	const image = variant === "hearts" ? "/heart.svg" : "/points.svg";
 
 	return (
@@ -35,13 +37,17 @@ export const ResultCard = ({ value, variant }: ResultCardProps) => {
 				)}
 			>
 				<Image
-					src={image}
+					src={isPro ? "/unlimited.svg" : image}
 					alt={"Icon"}
 					width={30}
 					height={30}
 					className="mr-1.5"
 				/>
-				{value}
+				{isPro ? (
+					<InfinityIcon className="size-5 stroke-[3]" />
+				) : (
+					<p>{value}</p>
+				)}
 			</div>
 		</div>
 	);
