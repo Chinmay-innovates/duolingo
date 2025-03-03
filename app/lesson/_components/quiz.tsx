@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { use, useState, useTransition } from "react";
 import Confetti from "react-confetti";
-import { challengeOptions, challenges } from "@/db/schema";
+import { challengeOptions, challenges, userSubscription } from "@/db/schema";
 
 import { Header } from "./header";
 import { Footer } from "./footer";
@@ -31,7 +31,11 @@ interface QuizProps {
 		completed: boolean;
 		challengeOptions: (typeof challengeOptions.$inferSelect)[];
 	})[];
-	userSubscription: any;
+	userSubscription:
+		| (typeof userSubscription.$inferSelect & {
+				isActive: boolean;
+		  })
+		| null;
 }
 
 export const Quiz = ({

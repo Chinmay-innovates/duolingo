@@ -8,7 +8,11 @@ import { auth, currentUser } from "@clerk/nextjs";
 import db from "@/db/drizzle";
 import { HEARTS_TO_DECREMENT, MAX_HEARTS, POINTS_TO_REFILL } from "@/constants";
 import { challengeProgress, challenges, userProgress } from "@/db/schema";
-import { getCourseById, getUserProgress } from "@/db/queries";
+import {
+	getCourseById,
+	getUserProgress,
+	getUserSubscription,
+} from "@/db/queries";
 
 export const upsertUserProgress = async (courseId: number) => {
 	const { userId } = await auth();
@@ -19,8 +23,8 @@ export const upsertUserProgress = async (courseId: number) => {
 	const course = await getCourseById(courseId);
 	if (!course) throw new Error("Course not found");
 
-	// if (!course.units.length || !course.units[0].lessons.length)
-	// 	throw new Error("Course has no lessons");
+	if (!course.units.length || !course.units[0].lessons.length)
+		throw new Error("Course has no lessons");
 
 	const existingUserProgresss = await getUserProgress();
 
@@ -53,6 +57,7 @@ export const reduceHearts = async (challengeId: number) => {
 	if (!userId) throw new Error("Unauthorized");
 
 	const currentUserProgress = await getUserProgress();
+	const userSubscription = await getUserSubscription();
 
 	const challenge = await db.query.challenges.findFirst({
 		where: eq(challenges.id, challengeId),
@@ -73,6 +78,8 @@ export const reduceHearts = async (challengeId: number) => {
 	const isPractice = !!existingChallengeProgress;
 
 	if (isPractice) return { error: "pratice" };
+
+	if (userSubscription?.isActive) return { error: "subscription" };
 
 	if (currentUserProgress.hearts === 0) return { error: "hearts" };
 
