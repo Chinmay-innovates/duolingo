@@ -156,7 +156,7 @@ const main = async () => {
 			{
 				id: 6,
 				challengeId: 2,
-				audioSrc: "/es_man.mp3",
+				audioSrc: "/es_robot.mp3",
 				text: "el robot",
 				correct: false,
 			},

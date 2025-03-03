@@ -6,7 +6,7 @@ import { revalidatePath } from "next/cache";
 import { auth, currentUser } from "@clerk/nextjs";
 
 import db from "@/db/drizzle";
-import { HEARTS_TO_DECREMENT } from "@/constants";
+import { HEARTS_TO_DECREMENT, MAX_HEARTS, POINTS_TO_REFILL } from "@/constants";
 import { challengeProgress, challenges, userProgress } from "@/db/schema";
 import { getCourseById, getUserProgress } from "@/db/queries";
 
@@ -88,4 +88,27 @@ export const reduceHearts = async (challengeId: number) => {
 	revalidatePath("/quests");
 	revalidatePath("/leaderboard");
 	revalidatePath(`/learn/${lessonId}`);
+};
+
+export const refillHearts = async () => {
+	const currentUserProgress = await getUserProgress();
+
+	if (!currentUserProgress) throw new Error("User progress not found");
+	if (currentUserProgress.hearts === MAX_HEARTS)
+		throw new Error("Hearts are already full");
+	if (currentUserProgress.points < POINTS_TO_REFILL)
+		throw new Error("Points are not enough to refill hearts");
+
+	await db
+		.update(userProgress)
+		.set({
+			hearts: MAX_HEARTS,
+			points: currentUserProgress.points - POINTS_TO_REFILL,
+		})
+		.where(eq(userProgress.userId, currentUserProgress.userId));
+
+	revalidatePath("/shop");
+	revalidatePath("/learn");
+	revalidatePath("/quests");
+	revalidatePath("/leaderboard");
 };
