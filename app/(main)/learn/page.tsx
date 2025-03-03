@@ -1,5 +1,7 @@
 import { redirect } from "next/navigation";
 
+import { Promo } from "@/components/promo";
+import { Quests } from "@/components/quests";
 import { FeedWrapper } from "@/components/feed-wrapper";
 import { UserProgress } from "@/components/user-progress";
 import { StickyWrapper } from "@/components/sticky-wrapper";
@@ -13,7 +15,6 @@ import {
 
 import { Header } from "./_components/header";
 import { Unit } from "./_components/unit";
-import { Promo } from "@/components/promo";
 
 const LearnPage = async () => {
 	const userProgressData = getUserProgress();
@@ -66,6 +67,7 @@ const LearnPage = async () => {
 					hasActiveSubscription={isPro}
 				/>
 				{!isPro && <Promo />}
+				<Quests points={userProgress.points} />
 			</StickyWrapper>
 		</div>
 	);
