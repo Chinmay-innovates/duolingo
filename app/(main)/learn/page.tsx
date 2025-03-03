@@ -13,6 +13,7 @@ import {
 
 import { Header } from "./_components/header";
 import { Unit } from "./_components/unit";
+import { Promo } from "@/components/promo";
 
 const LearnPage = async () => {
 	const userProgressData = getUserProgress();
@@ -64,6 +65,7 @@ const LearnPage = async () => {
 					points={userProgress.points}
 					hasActiveSubscription={isPro}
 				/>
+				{!isPro && <Promo />}
 			</StickyWrapper>
 		</div>
 	);

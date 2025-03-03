@@ -11,6 +11,24 @@ html,
 body {
 	@apply scroll-smooth h-full;
 }
+::-webkit-scrollbar {
+	width: 8px;
+	border-radius: 5px;
+}
+
+::-webkit-scrollbar-track {
+	background: #f1f1f1;
+	border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+	background: #8888883e;
+	border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background: #8888;
+}
 @media (prefers-color-scheme: dark) {
 	:root {
 		--foreground-rgb: 255, 255, 255;
