@@ -18,11 +18,11 @@ export const ChallengeList = () => {
 					choices={[
 						{
 							id: "SELECT",
-							name: "Select",
+							name: "SELECT",
 						},
 						{
 							id: "ASSIST",
-							name: "Assist",
+							name: "ASSIST",
 						},
 					]}
 				/>

@@ -5,7 +5,6 @@ import {
 	required,
 	SelectInput,
 	SimpleForm,
-	TextField,
 	TextInput,
 } from "react-admin";
 
@@ -13,7 +12,6 @@ export const ChallengeCreate = () => {
 	return (
 		<Create>
 			<SimpleForm>
-				<TextField source="id" />
 				<TextInput validate={required()} source="question" label="Question" />
 				<SelectInput
 					validate={required()}
@@ -21,11 +19,11 @@ export const ChallengeCreate = () => {
 					choices={[
 						{
 							id: "SELECT",
-							name: "Select",
+							name: "SELECT",
 						},
 						{
 							id: "ASSIST",
-							name: "Assist",
+							name: "ASSIST",
 						},
 					]}
 				/>
